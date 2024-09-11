@@ -1,3 +1,4 @@
+using ContactsApp;
 namespace ContactsAppUI
 {
     internal static class Program

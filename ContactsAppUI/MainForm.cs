@@ -168,7 +168,7 @@ namespace ContactsAppUI
             //contact1.BirthDay = new DateTime(1999, 05, 05);
             Project project1 = new Project();
             project1.Contact.Add(contact1);
-            //ProjectManager.SaveToFile(project1, ProjectManager.FilePath);
+            ProjectManager.SaveToFile(project1, ProjectManager.FilePath);
 
             //Project project2 = ProjectManager.LoadFromFile(ProjectManager.FilePath); 
 

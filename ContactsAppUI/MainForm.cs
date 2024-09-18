@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Globalization;
 using System.Reflection;
 using ContactsApp;
@@ -12,11 +12,11 @@ namespace ContactsAppUI
         private Project _project;
 
 
-        //Создаем новый телефон
+        //РЎРѕР·РґР°РµРј РЅРѕРІС‹Р№ С‚РµР»РµС„РѕРЅ
         private PhoneNumber _phoneNumber = new PhoneNumber();
 
         private Contacts _contacts = new Contacts();
-        //В эту строку будет записываться текст ошибки
+        //Р’ СЌС‚Сѓ СЃС‚СЂРѕРєСѓ Р±СѓРґРµС‚ Р·Р°РїРёСЃС‹РІР°С‚СЊСЃСЏ С‚РµРєСЃС‚ РѕС€РёР±РєРё
         private string _textException;
         public MainForm()
         {
@@ -27,19 +27,19 @@ namespace ContactsAppUI
 
             //ProjectManager.SaveToFile(_project);
         }
-        //Данный метод нужен для проверки работоспособности логики PhoneNumber через TextBox
+        //Р”Р°РЅРЅС‹Р№ РјРµС‚РѕРґ РЅСѓР¶РµРЅ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЂР°Р±РѕС‚РѕСЃРїРѕСЃРѕР±РЅРѕСЃС‚Рё Р»РѕРіРёРєРё PhoneNumber С‡РµСЂРµР· TextBox
 
         private void phone_textbox_TextChanged(object sender, EventArgs e)
         {
 
             int countException = 0;
-            ToolTip phoneToolTip = new ToolTip();//тултип будет выводить определенный текст под textbox в зависимости от соблюденных условий логики PhoneNumber
-            phone_textbox.SelectionStart = phone_textbox.Text.Length; //Выбираем начало ввода текста 
+            ToolTip phoneToolTip = new ToolTip();//С‚СѓР»С‚РёРї Р±СѓРґРµС‚ РІС‹РІРѕРґРёС‚СЊ РѕРїСЂРµРґРµР»РµРЅРЅС‹Р№ С‚РµРєСЃС‚ РїРѕРґ textbox РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЃРѕР±Р»СЋРґРµРЅРЅС‹С… СѓСЃР»РѕРІРёР№ Р»РѕРіРёРєРё PhoneNumber
+            phone_textbox.SelectionStart = phone_textbox.Text.Length; //Р’С‹Р±РёСЂР°РµРј РЅР°С‡Р°Р»Рѕ РІРІРѕРґР° С‚РµРєСЃС‚Р° 
             if (phone_textbox.Text.Length != 0)
             {
                 //char[] fst = new char[phone_textbox.Text.Length];
                 //fst[0] = phone_textbox.Text[0];
-                phone_textbox.Text = phone_textbox.Text.Replace(phone_textbox.Text[0], '7');//заменяем первый символ на 7
+                phone_textbox.Text = phone_textbox.Text.Replace(phone_textbox.Text[0], '7');//Р·Р°РјРµРЅСЏРµРј РїРµСЂРІС‹Р№ СЃРёРјРІРѕР» РЅР° 7
             }
 
             else
@@ -78,22 +78,22 @@ namespace ContactsAppUI
             else
             {
                 phone_textbox.BackColor = Color.White;
-                phoneToolTip.Show(text: "Правильно", phone_textbox,
+                phoneToolTip.Show(text: "РџСЂР°РІРёР»СЊРЅРѕ", phone_textbox,
                     (Point)(phone_textbox.Size + new Size(width: -200, height: 10)), duration: 1000);
             }
         }
-        //Убираем возможность вводить любые символы кроме чисел
+        //РЈР±РёСЂР°РµРј РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РІРІРѕРґРёС‚СЊ Р»СЋР±С‹Рµ СЃРёРјРІРѕР»С‹ РєСЂРѕРјРµ С‡РёСЃРµР»
         private void phone_textbox_KeyPress(object sender, KeyPressEventArgs e)
         {
 
-            //if (e.KeyChar == (char)Keys.Back)//Разрешает использовать BackSpace
+            //if (e.KeyChar == (char)Keys.Back)//Р Р°Р·СЂРµС€Р°РµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ BackSpace
                 //return;
-            //e.Handled = !char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar); //не запрещает использовать Вставку с любыми символами в буфере из-за чего крашит.
-            e.Handled = !char.IsNumber(e.KeyChar) && e.KeyChar !=8;//Разрешает вводить только цифры и нажатие BackSpace
+            //e.Handled = !char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar); //РЅРµ Р·Р°РїСЂРµС‰Р°РµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ Р’СЃС‚Р°РІРєСѓ СЃ Р»СЋР±С‹РјРё СЃРёРјРІРѕР»Р°РјРё РІ Р±СѓС„РµСЂРµ РёР·-Р·Р° С‡РµРіРѕ РєСЂР°С€РёС‚.
+            e.Handled = !char.IsNumber(e.KeyChar) && e.KeyChar !=8;//Р Р°Р·СЂРµС€Р°РµС‚ РІРІРѕРґРёС‚СЊ С‚РѕР»СЊРєРѕ С†РёС„СЂС‹ Рё РЅР°Р¶Р°С‚РёРµ BackSpace
             phone_textbox.MaxLength = 11;
 
         }
-        //Замена первого символа на 7 в строке номера телефона
+        //Р—Р°РјРµРЅР° РїРµСЂРІРѕРіРѕ СЃРёРјРІРѕР»Р° РЅР° 7 РІ СЃС‚СЂРѕРєРµ РЅРѕРјРµСЂР° С‚РµР»РµС„РѕРЅР°
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             textBox1.SelectionStart = textBox1.Text.Length;
@@ -160,11 +160,11 @@ namespace ContactsAppUI
         {
 
         }
-        //Тут просто проверял правильность работоспособности логики Project и ProjectManager. Сериализует заданный список и затем десериализует его, и затем возвращает в заданные textBox поля контакта
+        //РўСѓС‚ РїСЂРѕСЃС‚Рѕ РїСЂРѕРІРµСЂСЏР» РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ СЂР°Р±РѕС‚РѕСЃРїРѕСЃРѕР±РЅРѕСЃС‚Рё Р»РѕРіРёРєРё Project Рё ProjectManager. РЎРµСЂРёР°Р»РёР·СѓРµС‚ Р·Р°РґР°РЅРЅС‹Р№ СЃРїРёСЃРѕРє Рё Р·Р°С‚РµРј РґРµСЃРµСЂРёР°Р»РёР·СѓРµС‚ РµРіРѕ, Рё Р·Р°С‚РµРј РІРѕР·РІСЂР°С‰Р°РµС‚ РІ Р·Р°РґР°РЅРЅС‹Рµ textBox РїРѕР»СЏ РєРѕРЅС‚Р°РєС‚Р°
         private void MainForm_Load(object sender, EventArgs e)
         {
             //textBox2.Text = _project.contact1.FirstName;
-            Contacts contact1 = new Contacts("Вова", "Вупсень", new DateTime(1999, 05, 05), "krutoy@mail.ru", 79999999999, "vk12345");
+            Contacts contact1 = new Contacts("Р’РѕРІР°", "Р’СѓРїСЃРµРЅСЊ", new DateTime(1999, 05, 05), "krutoy@mail.ru", 79999999999, "vk12345");
             //contact1.BirthDay = new DateTime(1999, 05, 05);
             Project project1 = new Project();
             project1.Contact.Add(contact1);

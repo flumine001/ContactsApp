@@ -87,9 +87,9 @@ namespace ContactsAppUI
         {
 
             //if (e.KeyChar == (char)Keys.Back)//Разрешает использовать BackSpace
-                //return;
+            //return;
             //e.Handled = !char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar); //не запрещает использовать Вставку с любыми символами в буфере из-за чего крашит.
-            e.Handled = !char.IsNumber(e.KeyChar) && e.KeyChar !=8;//Разрешает вводить только цифры и нажатие BackSpace
+            e.Handled = !char.IsNumber(e.KeyChar) && e.KeyChar != 8;//Разрешает вводить только цифры и нажатие BackSpace
             phone_textbox.MaxLength = 11;
 
         }
@@ -164,11 +164,11 @@ namespace ContactsAppUI
         private void MainForm_Load(object sender, EventArgs e)
         {
             //textBox2.Text = _project.contact1.FirstName;
-            Contacts contact1 = new Contacts("Вова", "Вупсень", new DateTime(1999, 05, 05), "krutoy@mail.ru", 79999999999, "vk12345");
+            //Contacts contact1 = new Contacts("Вова", "Вупсень", new DateTime(1999, 05, 05), "krutoy@mail.ru", 79999999999, "vk12345");
             //contact1.BirthDay = new DateTime(1999, 05, 05);
             Project project1 = new Project();
-            project1.Contact.Add(contact1);
-            ProjectManager.SaveToFile(project1, ProjectManager.FilePath);
+            //project1.Contact.Add(contact1);
+            //ProjectManager.SaveToFile(project1, ProjectManager.FilePath);
 
             //Project project2 = ProjectManager.LoadFromFile(ProjectManager.FilePath); 
 
@@ -178,9 +178,9 @@ namespace ContactsAppUI
             textBox3.Text = _project.Contact[0].LastName;
             textBox4.Text = _project.Contact[0].Email;
             textBox5.Text = _project.Contact[0].phoneNumber.ToString();
-            textBox6.Text = contact1.Vkid;
+            textBox6.Text = _project.Contact[0].Vkid;
             dateTimePicker1.Value = _project.Contact[0].BirthDay;
-
+            //todo: phone number validation https://www.abstractapi.com/guides/phone-validation/c-validate-phone-number
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -199,6 +199,11 @@ namespace ContactsAppUI
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 
         }

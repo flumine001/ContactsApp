@@ -54,7 +54,7 @@
             // 
             // phone_textbox
             // 
-            phone_textbox.BackColor = SystemColors.HotTrack;
+            phone_textbox.BackColor = SystemColors.Control;
             phone_textbox.Location = new Point(73, 73);
             phone_textbox.Name = "phone_textbox";
             phone_textbox.Size = new Size(194, 23);
@@ -136,10 +136,12 @@
             // 
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 15;
+            listBox1.Items.AddRange(new object[] { "qweqweq", "qweqweqe", "rtrtqewery" });
             listBox1.Location = new Point(73, 112);
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(288, 274);
             listBox1.TabIndex = 9;
+            listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged_1;
             // 
             // dateTimePicker1
             // 

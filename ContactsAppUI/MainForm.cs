@@ -1,28 +1,193 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Contracts;
+using System.Drawing.Text;
 using System.Globalization;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ContactsApp;
 using ContactsApp.ContactsApp;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace ContactsAppUI
 {
+
     public partial class MainForm : Form
 
     {
+        private Project _project;
+        private Project sortedContacts;
+
+
+
+        private void RemoveContact()
+        {
+            Project sortedContacts = new Project();
+            sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+            var selectedIndex = listBox1.SelectedIndex;
+            //var sortedContacts = _project.Contact.OrderBy(x => x.LastName).ToList();
+            if (selectedIndex >= 0)
+            {
+                sortedContacts.Contact.RemoveAt(selectedIndex);
+                ProjectManager.SaveToFile(sortedContacts, ProjectManager.FilePath);
+                _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
+                listBox1.Items.Clear();
+                int ContactCount = 0;
+                foreach (var lastname in sortedContacts.Contact)
+                {
+                    listBox1.Items.Add(sortedContacts.Contact[ContactCount].LastName);
+                    ContactCount++;
+
+                }
+            }
+        }
+        private void AddContact()
+        {
+            var newForm = new AddForm();
+            var resultOfDialog = newForm.ShowDialog();
+            if (resultOfDialog == DialogResult.OK)
+            {
+                var contact = newForm.Contact;
+                Project sortedContacts = new Project();
+
+                sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+                sortedContacts.Contact.Add(contact);
+                _project.Contact = sortedContacts.Contact.OrderBy(x => x.LastName).ToList();
+                ProjectManager.SaveToFile(_project, ProjectManager.FilePath);
+                _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
+                listBox1.Items.Clear();
+                int ContactCount = 0;
+                foreach (var lastname in _project.Contact)
+                {
+                    listBox1.Items.Add(_project.Contact[ContactCount].LastName);
+                    ContactCount++;
+
+                }
+                Birthday();
+
+            }
+            /*Project sortedContacts = new Project();
+            sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+            var selectedIndex = listBox1.SelectedIndex;
+            //Contacts contact2 = new Contacts("Вова", "Гупсень", new DateTime(1999, 05, 05), "krutoy@mail.ru", 79999999999, "vk12345");
+            Contacts contact1 = new Contacts(FirstNameBox.Text, LastNameBox.Text, dateTimePicker1.Value, EmailBox.Text, maskedTextBox1.Text, VkBox.Text);
+            //_project.Contact.Add(contact1);
+            sortedContacts.Contact.Add(contact1);
+            _project.Contact = sortedContacts.Contact.OrderBy(x => x.LastName).ToList();
+            ProjectManager.SaveToFile(_project, ProjectManager.FilePath);
+            //ProjectManager.SaveToFile(sortedContacts, ProjectManager.FilePath);
+            _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
+            listBox1.Items.Clear();
+            int ContactCount = 0;
+            foreach (var lastname in _project.Contact)
+            {
+                listBox1.Items.Add(_project.Contact[ContactCount].LastName);
+                ContactCount++;
+
+            }*/
+
+        }
+        private void EditContact()
+        {
+
+
+            var index = listBox1.SelectedIndex;
+            if (index == -1)
+            {
+                MessageBox.Show("Выберите контакт для редактирования");
+            }
+            else
+            {
+                if (_project.Contact.Count > 0)
+                {
+
+                    var contactOfIndex = _project.Contact[index];
+
+                    Contacts newCloneContact = (Contacts)contactOfIndex.Clone();
+                    var newForm = new AddForm();
+                    newForm.Contact = newCloneContact;
+                    var resultOfDialog = newForm.ShowDialog();
+                    if (resultOfDialog == DialogResult.OK)
+                    {
+                        contactOfIndex = newForm.Contact;
+                        Project sortedContacts = new Project();
+
+                        sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+                        sortedContacts.Contact[index].FirstName = contactOfIndex.FirstName;
+                        sortedContacts.Contact[index].LastName = contactOfIndex.LastName;
+                        sortedContacts.Contact[index].Email = contactOfIndex.Email;
+                        sortedContacts.Contact[index].phoneNumber.Number = contactOfIndex.phoneNumber.Number;
+                        sortedContacts.Contact[index].Vkid = contactOfIndex.Vkid;
+                        sortedContacts.Contact[index].BirthDay = contactOfIndex.BirthDay;
+                        //sortedContacts.Contact.Add(contact);
+                        _project.Contact = sortedContacts.Contact.OrderBy(x => x.LastName).ToList();
+                        ProjectManager.SaveToFile(_project, ProjectManager.FilePath);
+                        _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
+                        listBox1.Items.Clear();
+                        int ContactCount = 0;
+                        foreach (var lastname in _project.Contact)
+                        {
+                            listBox1.Items.Add(_project.Contact[ContactCount].LastName);
+                            ContactCount++;
+
+                        }
+                        Birthday();
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Ноль контактов");
+                }
+            }
+            /*Project sortedContacts = new Project();
+            sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+            var selectedIndex = listBox1.SelectedIndex;
+
+            if (selectedIndex >= 0)
+            {
+                sortedContacts.Contact[selectedIndex].FirstName = FirstNameBox.Text;
+                sortedContacts.Contact[selectedIndex].LastName = LastNameBox.Text;
+                sortedContacts.Contact[selectedIndex].Email = EmailBox.Text;
+                sortedContacts.Contact[selectedIndex].phoneNumber.Number = maskedTextBox1.Text;
+                sortedContacts.Contact[selectedIndex].Vkid = VkBox.Text;
+                sortedContacts.Contact[selectedIndex].BirthDay = dateTimePicker1.Value;
+                _project.Contact = sortedContacts.Contact.OrderBy(x => x.LastName).ToList();
+                ProjectManager.SaveToFile(_project, ProjectManager.FilePath);
+                //ProjectManager.SaveToFile(sortedContacts, ProjectManager.FilePath);
+                _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
+                listBox1.Items.Clear();
+                int ContactCount = 0;
+                foreach (var lastname in _project.Contact)
+                {
+                    listBox1.Items.Add(_project.Contact[ContactCount].LastName);
+                    ContactCount++;
+
+                }
+            }*/
+
+        }
+
         public void buttonEnabler()
         {
-            button1.Enabled = !string.IsNullOrEmpty(FirstNameBox.Text) && !string.IsNullOrEmpty(LastNameBox.Text)
-                && !string.IsNullOrEmpty(EmailBox.Text) && !string.IsNullOrEmpty(VkBox.Text) && !string.IsNullOrEmpty(maskedTextBox1.Text);
-           //todo: исправить активацию кнопки по текст боксу телефона(плейсхолдер активирует кнопку)
-           //todo: Добавить возможность редактировать существующий контакт
-          
+            string phoneValidator = new string(maskedTextBox1.Text.Where(Char.IsDigit).ToArray());
+            if (phoneValidator.Length == 11)
+            {
+                button1.Enabled = !string.IsNullOrEmpty(FirstNameBox.Text) && !string.IsNullOrEmpty(LastNameBox.Text)
+                    && !string.IsNullOrEmpty(EmailBox.Text) && !string.IsNullOrEmpty(VkBox.Text) && !string.IsNullOrEmpty(phoneValidator) && phoneValidator.Length == 11;
+            }
+            else
+            {
+                button1.Enabled = false;
+            }
+            //todo: исправить активацию кнопки по текст боксу телефона(плейсхолдер активирует кнопку)
+            //todo: Добавить возможность редактировать существующий контакт
+
         }
-        int buttonCount = 0;
-        private Project _project;
-        //private Project sortedContacts;
+
 
         //Создаем новый телефон
         private PhoneNumber _phoneNumber = new PhoneNumber();
@@ -36,7 +201,7 @@ namespace ContactsAppUI
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
             Project sortedContacts = new Project();
             sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
             var selectedIndex = listBox1.SelectedIndex;
@@ -67,7 +232,7 @@ namespace ContactsAppUI
             int countException = 0;
             ToolTip phoneToolTip = new ToolTip();//тултип будет выводить определенный текст под textbox в зависимости от соблюденных условий логики PhoneNumber
             phone_textbox.SelectionStart = phone_textbox.Text.Length; //Выбираем начало ввода текста 
-            Regex phonepattern = new Regex(@"^[7]{1}");
+
             if (phone_textbox.Text.Length != 0)
             {
                 //char[] fst = new char[phone_textbox.Text.Length];
@@ -129,7 +294,7 @@ namespace ContactsAppUI
         //Замена первого символа на 7 в строке номера телефона
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            
+
             textBox1.SelectionStart = textBox1.Text.Length;
             if (textBox1.Text.Length != 0)
             {
@@ -157,17 +322,17 @@ namespace ContactsAppUI
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             buttonEnabler();
-            
+
             if (FirstNameBox.Text.Length != 0)
             {
                 //textBox2.Text = _contacts.FirstName;
-                buttonCount++;
+
             }
             else
             {
                 return;
             }
-            
+
         }
 
         private void textBox2_MouseClick(object sender, MouseEventArgs e)
@@ -199,8 +364,39 @@ namespace ContactsAppUI
 
         }
         //Тут просто проверял правильность работоспособности логики Project и ProjectManager. Сериализует заданный список и затем десериализует его, и затем возвращает в заданные textBox поля контакта
+        public void Birthday()
+        {
+            _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
+            Project sortedContacts = new Project();
+            sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+
+            Project _birth = new Project();
+            Project _projectbirth = new Project();
+            BirthDayShow.Text = null;
+
+            for (int i = 0; i < sortedContacts.Contact.Count; i++)
+            {
+                if (_project.Contact[i].BirthDay.Day == DateTime.Today.Day &&
+                    _project.Contact[i].BirthDay.Month == DateTime.Today.Month)
+                {
+                    _birth.Contact.Add(sortedContacts.Contact[i]);
+                }
+            }
+            for (int i = 0; i < _birth.Contact.Count; i++)
+            {
+                BirthDayShow.Text = BirthDayShow.Text + _birth.Contact[i].LastName + ", ";
+
+
+            }
+            string newBirthText = BirthDayShow.Text;
+            BirthDayShow.Text = newBirthText.Remove(newBirthText.Length - 2) + "";
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
+
+            // Project _birth = Project.Birthday(_project, DateTime.Today);
+            Birthday();
             button1.Enabled = false;
             //textBox2.Text = _project.contact1.FirstName;
             Contacts contact1 = new Contacts("Вова", "Яупсень", new DateTime(1999, 05, 05), "krutoy@mail.ru", "79999999999", "vk12345");
@@ -228,6 +424,26 @@ namespace ContactsAppUI
             // Создаем новый список с сортировкой по фамилии оригинального списка
             Project sortedContacts = new Project();
             sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+
+            /*Project _birth = new Project();
+            Project _projectbirth = new Project();
+
+            for (int i = 0; i < sortedContacts.Contact.Count; i++)
+            {
+                if (_project.Contact[i].BirthDay.Day == DateTime.Today.Day &&
+                    _project.Contact[i].BirthDay.Month == DateTime.Today.Month)
+                {
+                    _birth.Contact.Add(sortedContacts.Contact[i]);
+                }
+            }
+            for (int i = 0; i < _birth.Contact.Count; i++)
+            {
+                BirthDayShow.Text = BirthDayShow.Text + _birth.Contact[i].LastName + ", ";
+                
+                
+            }
+            string newBirthText = BirthDayShow.Text;
+            BirthDayShow.Text = newBirthText.Remove(newBirthText.Length - 2) + "";*/
             //Цикл вывода фамилий контактов в листбокс
             int ContactCount = 0;
             foreach (var lastname in sortedContacts.Contact)
@@ -291,7 +507,7 @@ namespace ContactsAppUI
 
         private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
         {
-            buttonEnabler();
+            //buttonEnabler();
 
         }
 
@@ -315,6 +531,104 @@ namespace ContactsAppUI
 
                 }
             }
+        }
+
+        private void maskedTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            buttonEnabler();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            EditContact();
+        }
+
+        private void SearchBox_TextChanged(object sender, EventArgs e)
+        {
+            Project sortedContacts = new Project();
+            sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+            string searchstring = SearchBox.Text;
+            bool found = false;
+            for (int i = 0; i <= listBox1.Items.Count - 1; i++)
+            {
+
+                if (listBox1.Items[i].ToString().StartsWith(searchstring))
+                {
+
+                    listBox1.SelectedItem = listBox1.Items[i];
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            AddContact();
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+            EditContact();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void addContactToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddContact();
+        }
+
+        private void editContactToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditContact();
+        }
+
+        private void removeContactToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Project sortedContacts = new Project();
+            sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+            var selectedIndex = listBox1.SelectedIndex;
+            //var sortedContacts = _project.Contact.OrderBy(x => x.LastName).ToList();
+            if (selectedIndex >= 0)
+            {
+                sortedContacts.Contact.RemoveAt(selectedIndex);
+                ProjectManager.SaveToFile(sortedContacts, ProjectManager.FilePath);
+                _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
+                listBox1.Items.Clear();
+                int ContactCount = 0;
+                foreach (var lastname in sortedContacts.Contact)
+                {
+                    listBox1.Items.Add(sortedContacts.Contact[ContactCount].LastName);
+                    ContactCount++;
+
+                }
+            }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newForm = new AboutForm();
+            newForm.Show();
         }
     }
 }

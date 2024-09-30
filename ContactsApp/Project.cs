@@ -9,14 +9,15 @@ namespace ContactsApp
     public class Project
     {
         public List<Contacts> Contact;
-
+        
 
         public Project()
         {
             Contact = new();
+            
         }
 
-
+        
 
 
 

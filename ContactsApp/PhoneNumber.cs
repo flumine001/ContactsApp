@@ -12,9 +12,9 @@ namespace ContactsApp
     /// </summary>
     public class PhoneNumber
     {
-        private long _number;
+        private string _number;
 
-        public long Number
+        public string Number
         {
             get { return _number; }
             set
@@ -22,12 +22,12 @@ namespace ContactsApp
                 string str_number = value.ToString();
 
                 //if (str_number.Length == 11 && str_number[0] == '7') //Поначалу сделал проверку на первую цифру, но затем решил просто заменять первый введенный символ в text box на 7
-                if (str_number.Length == 11)
-                {
+               // if (str_number.Length == 16)
+               // {
 
                     _number = value;
-                }
-                else throw new ArgumentException("Номер должен состоять из 11 цифр и начинаться с 7");
+               // }
+                //else throw new ArgumentException("Номер должен состоять из 11 цифр и начинаться с 7");
             }
         }
     }

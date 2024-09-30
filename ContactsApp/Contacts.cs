@@ -142,7 +142,7 @@ namespace ContactsApp
         /// <param name="email"></param> E-mail.
         /// <param name="birthday"></param> Дата рождения контакта.
         /// <param name="vkid"></param> ID Vk.
-        public Contacts(string firstname, string lastname, DateTime birthday, string email, long phoneNumber ,
+        public Contacts(string firstname, string lastname, DateTime birthday, string email, string phoneNumber ,
             string vkid)
         {
             

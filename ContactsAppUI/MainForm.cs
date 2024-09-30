@@ -9,16 +9,54 @@ using ContactsApp.ContactsApp;
 
 namespace ContactsAppUI
 {
+
     public partial class MainForm : Form
 
     {
+        public void EditContact()
+        {
+            Project sortedContacts = new Project();
+            sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+            var selectedIndex = listBox1.SelectedIndex;
+
+            if (selectedIndex >= 0)
+            {
+                sortedContacts.Contact[selectedIndex].FirstName = FirstNameBox.Text;
+                sortedContacts.Contact[selectedIndex].LastName = LastNameBox.Text;
+                sortedContacts.Contact[selectedIndex].Email = EmailBox.Text;
+                sortedContacts.Contact[selectedIndex].phoneNumber.Number = maskedTextBox1.Text;
+                sortedContacts.Contact[selectedIndex].Vkid = VkBox.Text;
+                sortedContacts.Contact[selectedIndex].BirthDay = dateTimePicker1.Value;
+                _project.Contact = sortedContacts.Contact.OrderBy(x => x.LastName).ToList();
+                ProjectManager.SaveToFile(_project, ProjectManager.FilePath);
+                //ProjectManager.SaveToFile(sortedContacts, ProjectManager.FilePath);
+                _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
+                listBox1.Items.Clear();
+                int ContactCount = 0;
+                foreach (var lastname in _project.Contact)
+                {
+                    listBox1.Items.Add(_project.Contact[ContactCount].LastName);
+                    ContactCount++;
+
+                }
+            }
+        }
+
         public void buttonEnabler()
         {
-            button1.Enabled = !string.IsNullOrEmpty(FirstNameBox.Text) && !string.IsNullOrEmpty(LastNameBox.Text)
-                && !string.IsNullOrEmpty(EmailBox.Text) && !string.IsNullOrEmpty(VkBox.Text) && !string.IsNullOrEmpty(maskedTextBox1.Text);
-           //todo: исправить активацию кнопки по текст боксу телефона(плейсхолдер активирует кнопку)
-           //todo: Добавить возможность редактировать существующий контакт
-          
+            string phoneValidator = new string(maskedTextBox1.Text.Where(Char.IsDigit).ToArray());
+            if (phoneValidator.Length == 11)
+            {
+                button1.Enabled = !string.IsNullOrEmpty(FirstNameBox.Text) && !string.IsNullOrEmpty(LastNameBox.Text)
+                    && !string.IsNullOrEmpty(EmailBox.Text) && !string.IsNullOrEmpty(VkBox.Text) && !string.IsNullOrEmpty(phoneValidator) && phoneValidator.Length == 11;
+            }
+            else
+            {
+                button1.Enabled = false;
+            }
+            //todo: исправить активацию кнопки по текст боксу телефона(плейсхолдер активирует кнопку)
+            //todo: Добавить возможность редактировать существующий контакт
+
         }
         int buttonCount = 0;
         private Project _project;
@@ -36,7 +74,7 @@ namespace ContactsAppUI
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
             Project sortedContacts = new Project();
             sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
             var selectedIndex = listBox1.SelectedIndex;
@@ -67,7 +105,7 @@ namespace ContactsAppUI
             int countException = 0;
             ToolTip phoneToolTip = new ToolTip();//тултип будет выводить определенный текст под textbox в зависимости от соблюденных условий логики PhoneNumber
             phone_textbox.SelectionStart = phone_textbox.Text.Length; //Выбираем начало ввода текста 
-            Regex phonepattern = new Regex(@"^[7]{1}");
+
             if (phone_textbox.Text.Length != 0)
             {
                 //char[] fst = new char[phone_textbox.Text.Length];
@@ -129,7 +167,7 @@ namespace ContactsAppUI
         //Замена первого символа на 7 в строке номера телефона
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            
+
             textBox1.SelectionStart = textBox1.Text.Length;
             if (textBox1.Text.Length != 0)
             {
@@ -157,7 +195,7 @@ namespace ContactsAppUI
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             buttonEnabler();
-            
+
             if (FirstNameBox.Text.Length != 0)
             {
                 //textBox2.Text = _contacts.FirstName;
@@ -167,7 +205,7 @@ namespace ContactsAppUI
             {
                 return;
             }
-            
+
         }
 
         private void textBox2_MouseClick(object sender, MouseEventArgs e)
@@ -291,7 +329,7 @@ namespace ContactsAppUI
 
         private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
         {
-            buttonEnabler();
+            //buttonEnabler();
 
         }
 
@@ -315,6 +353,16 @@ namespace ContactsAppUI
 
                 }
             }
+        }
+
+        private void maskedTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            buttonEnabler();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            EditContact();
         }
     }
 }

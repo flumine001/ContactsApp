@@ -41,6 +41,7 @@
             dateTimePicker1 = new DateTimePicker();
             maskedTextBox1 = new MaskedTextBox();
             button2 = new Button();
+            button3 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -161,6 +162,7 @@
             maskedTextBox1.Size = new Size(146, 23);
             maskedTextBox1.TabIndex = 11;
             maskedTextBox1.MaskInputRejected += maskedTextBox1_MaskInputRejected;
+            maskedTextBox1.TextChanged += maskedTextBox1_TextChanged;
             // 
             // button2
             // 
@@ -172,11 +174,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += Remove_Click;
             // 
+            // button3
+            // 
+            button3.Location = new Point(826, 390);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 13;
+            button3.Text = "Edit";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1022, 589);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(maskedTextBox1);
             Controls.Add(dateTimePicker1);
@@ -212,5 +225,6 @@
         private DateTimePicker dateTimePicker1;
         private MaskedTextBox maskedTextBox1;
         private Button button2;
+        private Button button3;
     }
 }

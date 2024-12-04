@@ -410,17 +410,21 @@ namespace ContactsAppUI
         {
             Project sortedContacts = new Project();
             sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
-            string searchstring = SearchBox.Text;
-            bool found = false;
-            for (int i = 0; i <= listBox1.Items.Count - 1; i++)
+            if (SearchBox.Text.Length > 0)
             {
+                string searchstring = SearchBox.Text[0].ToString().ToUpper();
 
-                if (listBox1.Items[i].ToString().StartsWith(searchstring))
+                bool found = false;
+                for (int i = 0; i <= listBox1.Items.Count - 1; i++)
                 {
 
-                    listBox1.SelectedItem = listBox1.Items[i];
-                    found = true;
-                    break;
+                    if (listBox1.Items[i].ToString().StartsWith(searchstring))
+                    {
+
+                        listBox1.SelectedItem = listBox1.Items[i];
+                        found = true;
+                        break;
+                    }
                 }
             }
         }

@@ -383,6 +383,7 @@
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
             Text = "ContactApp";
+            FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();

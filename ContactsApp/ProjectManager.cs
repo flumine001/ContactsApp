@@ -27,7 +27,7 @@ namespace ContactsApp
             private const string FileName = "ContactApp.notes";
             public static readonly string SaveFilePath =
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                "\\ContactsApp1";
+                "\\ContactsAppZubkov";
             public static readonly string FilePath = Path.Combine(SaveFilePath, FileName);
             /// <summary>
             /// Метод, сохраняющий в файл проект с контактами

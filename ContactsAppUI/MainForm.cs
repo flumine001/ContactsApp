@@ -91,7 +91,7 @@ namespace ContactsAppUI
                 Birthday();
 
             }
-            
+
 
         }
         private void EditContact()
@@ -126,7 +126,7 @@ namespace ContactsAppUI
                         sortedContacts.Contact[index].phoneNumber.Number = contactOfIndex.phoneNumber.Number;
                         sortedContacts.Contact[index].Vkid = contactOfIndex.Vkid;
                         sortedContacts.Contact[index].BirthDay = contactOfIndex.BirthDay;
-                        
+
                         _project.Contact = sortedContacts.Contact.OrderBy(x => x.LastName).ToList();
                         ProjectManager.SaveToFile(_project, ProjectManager.FilePath);
                         _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
@@ -147,11 +147,11 @@ namespace ContactsAppUI
                     MessageBox.Show("Ноль контактов");
                 }
             }
-            
+
 
         }
 
-       
+
 
 
         //Создаем новый телефон
@@ -171,7 +171,7 @@ namespace ContactsAppUI
             Project sortedContacts = new Project();
             sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
             var selectedIndex = listBox1.SelectedIndex;
-            
+
             Contacts contact1 = new Contacts(FirstNameBox.Text, LastNameBox.Text, dateTimePicker1.Value, EmailBox.Text, maskedTextBox1.Text, VkBox.Text);
             //_project.Contact.Add(contact1);
             sortedContacts.Contact.Add(contact1);
@@ -192,7 +192,7 @@ namespace ContactsAppUI
         }
         //Данный метод нужен для проверки работоспособности логики PhoneNumber через TextBox
 
-        
+
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -207,7 +207,7 @@ namespace ContactsAppUI
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            
+
 
             if (FirstNameBox.Text.Length != 0)
             {
@@ -233,7 +233,7 @@ namespace ContactsAppUI
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            
+
             if (LastNameBox.Text.Length == 0)
             {
                 //textBox3.Text = _phoneNumber.Number.ToString();
@@ -289,7 +289,7 @@ namespace ContactsAppUI
 
             // Project _birth = Project.Birthday(_project, DateTime.Today);
             Birthday();
-            
+
             //textBox2.Text = _project.contact1.FirstName;
             Contacts contact1 = new Contacts("Вова", "Яупсень", new DateTime(1999, 05, 05), "krutoy@mail.ru", "79999999999", "vk12345");
             Contacts contact2 = new Contacts("Петя", "Апкин", new DateTime(2003, 04, 05), "sobaka@mail.ru", "79000000000", "vk00001");
@@ -352,7 +352,7 @@ namespace ContactsAppUI
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void textBox5_TextChanged(object sender, EventArgs e)
@@ -362,7 +362,7 @@ namespace ContactsAppUI
 
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -430,7 +430,7 @@ namespace ContactsAppUI
 
         private void maskedTextBox1_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -528,6 +528,21 @@ namespace ContactsAppUI
         {
             var newForm = new AboutForm();
             newForm.Show();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(listBox1.Items.Count == 0)
+            {
+                if (Directory.Exists(ProjectManager.SaveFilePath))
+                {
+                    if (File.Exists(ProjectManager.FilePath))
+                    {
+                        File.Delete(ProjectManager.FilePath);
+                    }
+                    Directory.Delete(ProjectManager.SaveFilePath);
+                }
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ namespace ContactsAppUI
             if (phoneValidator.Length == 11)
             {
                 OkButton.Enabled = !string.IsNullOrEmpty(firstnameBox.Text) && !string.IsNullOrEmpty(lastnameBox.Text)
-                    && !string.IsNullOrEmpty(emailBox.Text) && !string.IsNullOrEmpty(vkBox.Text) && !string.IsNullOrEmpty(phoneValidator) && phoneValidator.Length == 11;
+                    && !string.IsNullOrEmpty(emailBox.Text) && !string.IsNullOrEmpty(vkBox.Text) && !string.IsNullOrEmpty(phoneValidator) && phoneValidator.Length >= 10;
 
             }
             else
@@ -69,7 +69,7 @@ namespace ContactsAppUI
 
         private void label1_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -101,14 +101,14 @@ namespace ContactsAppUI
                 vkBox.Text = _contact.Vkid;
                 OkButton.Enabled = true;
             }
-            else 
+            else
             {
                 birthdayBox.Value = new DateTime(1900, 01, 01);
                 OkButton.Enabled = false;
             }
 
-            
-            
+
+
         }
 
         private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
@@ -143,6 +143,11 @@ namespace ContactsAppUI
         private void birthdayBox_ValueChanged(object sender, EventArgs e)
         {
             _contact.BirthDay = birthdayBox.Value;
+        }
+
+        private void maskedTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            _contact.phoneNumber.Number = maskedTextBox1.Text;
         }
     }
 }

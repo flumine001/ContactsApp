@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             FirstNameBox = new TextBox();
             LastNameBox = new TextBox();
             EmailBox = new TextBox();
@@ -57,13 +58,11 @@
             removeContactToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
-            button1 = new Button();
-            button3 = new Button();
-            phone_textbox = new TextBox();
-            textBox1 = new TextBox();
-            PhoneNumberBox = new TextBox();
-            textBox7 = new TextBox();
+            pictureBox1 = new PictureBox();
+            panel1 = new Panel();
             menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // FirstNameBox
@@ -72,6 +71,7 @@
             FirstNameBox.Location = new Point(385, 61);
             FirstNameBox.Multiline = true;
             FirstNameBox.Name = "FirstNameBox";
+            FirstNameBox.ReadOnly = true;
             FirstNameBox.Size = new Size(420, 23);
             FirstNameBox.TabIndex = 3;
             FirstNameBox.MouseClick += textBox2_MouseClick;
@@ -83,6 +83,7 @@
             LastNameBox.Location = new Point(385, 32);
             LastNameBox.Multiline = true;
             LastNameBox.Name = "LastNameBox";
+            LastNameBox.ReadOnly = true;
             LastNameBox.Size = new Size(420, 23);
             LastNameBox.TabIndex = 4;
             LastNameBox.TextChanged += textBox3_TextChanged;
@@ -93,6 +94,7 @@
             EmailBox.Location = new Point(385, 148);
             EmailBox.Multiline = true;
             EmailBox.Name = "EmailBox";
+            EmailBox.ReadOnly = true;
             EmailBox.Size = new Size(420, 23);
             EmailBox.TabIndex = 5;
             EmailBox.TextChanged += textBox4_TextChanged;
@@ -103,6 +105,7 @@
             VkBox.Location = new Point(385, 177);
             VkBox.Multiline = true;
             VkBox.Name = "VkBox";
+            VkBox.ReadOnly = true;
             VkBox.Size = new Size(420, 23);
             VkBox.TabIndex = 7;
             VkBox.TextChanged += textBox6_TextChanged;
@@ -113,12 +116,15 @@
             listBox1.ItemHeight = 15;
             listBox1.Location = new Point(12, 61);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(288, 424);
+            listBox1.Size = new Size(288, 319);
             listBox1.TabIndex = 9;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged_1;
             // 
             // dateTimePicker1
             // 
+            dateTimePicker1.CalendarMonthBackground = SystemColors.InactiveBorder;
+            dateTimePicker1.CalendarTrailingForeColor = SystemColors.ActiveCaption;
+            dateTimePicker1.Enabled = false;
             dateTimePicker1.Location = new Point(385, 90);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(200, 23);
@@ -127,9 +133,11 @@
             // 
             // maskedTextBox1
             // 
+            maskedTextBox1.BackColor = SystemColors.ControlLightLight;
             maskedTextBox1.Location = new Point(385, 119);
-            maskedTextBox1.Mask = "7(999) 000-00-00";
+            maskedTextBox1.Mask = "7(000) 000-00-00";
             maskedTextBox1.Name = "maskedTextBox1";
+            maskedTextBox1.ReadOnly = true;
             maskedTextBox1.Size = new Size(420, 23);
             maskedTextBox1.TabIndex = 11;
             maskedTextBox1.MaskInputRejected += maskedTextBox1_MaskInputRejected;
@@ -137,11 +145,12 @@
             // 
             // button2
             // 
-            button2.Location = new Point(174, 507);
+            button2.BackgroundImage = Properties.Resources.Remove;
+            button2.BackgroundImageLayout = ImageLayout.Center;
+            button2.Location = new Point(98, 386);
             button2.Name = "button2";
-            button2.Size = new Size(75, 23);
+            button2.Size = new Size(37, 34);
             button2.TabIndex = 12;
-            button2.Text = "Remove";
             button2.UseVisualStyleBackColor = true;
             button2.Click += Remove_Click;
             // 
@@ -155,37 +164,39 @@
             // 
             // button4
             // 
-            button4.Location = new Point(12, 508);
+            button4.BackgroundImage = (Image)resources.GetObject("button4.BackgroundImage");
+            button4.BackgroundImageLayout = ImageLayout.Center;
+            button4.Location = new Point(12, 386);
             button4.Name = "button4";
-            button4.Size = new Size(75, 23);
+            button4.Size = new Size(37, 34);
             button4.TabIndex = 15;
-            button4.Text = "Add";
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
             // EditButton
             // 
-            EditButton.Location = new Point(93, 508);
+            EditButton.BackgroundImage = Properties.Resources.EditDocument;
+            EditButton.BackgroundImageLayout = ImageLayout.Center;
+            EditButton.Location = new Point(55, 386);
             EditButton.Name = "EditButton";
-            EditButton.Size = new Size(75, 23);
+            EditButton.Size = new Size(37, 34);
             EditButton.TabIndex = 16;
-            EditButton.Text = "Edit";
             EditButton.UseVisualStyleBackColor = true;
             EditButton.Click += EditButton_Click;
             // 
             // BirthDayInfo
             // 
             BirthDayInfo.AutoSize = true;
-            BirthDayInfo.Location = new Point(352, 250);
+            BirthDayInfo.Location = new Point(188, 22);
             BirthDayInfo.Name = "BirthDayInfo";
-            BirthDayInfo.Size = new Size(199, 15);
+            BirthDayInfo.Size = new Size(141, 15);
             BirthDayInfo.TabIndex = 17;
-            BirthDayInfo.Text = "Сегодня день рождение празднует:";
+            BirthDayInfo.Text = "Сегодня день рождение:";
             // 
             // BirthDayShow
             // 
             BirthDayShow.AutoSize = true;
-            BirthDayShow.Location = new Point(557, 250);
+            BirthDayShow.Location = new Point(188, 46);
             BirthDayShow.Name = "BirthDayShow";
             BirthDayShow.Size = new Size(43, 15);
             BirthDayShow.TabIndex = 18;
@@ -261,7 +272,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, helpToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1022, 24);
+            menuStrip1.Size = new Size(815, 24);
             menuStrip1.TabIndex = 26;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -318,75 +329,37 @@
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new Size(180, 22);
+            aboutToolStripMenuItem.Size = new Size(107, 22);
             aboutToolStripMenuItem.Text = "About";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
-            // button1
+            // pictureBox1
             // 
-            button1.Location = new Point(352, 507);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 0;
-            button1.Text = "Add";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            button1.MouseClick += button1_MouseClick;
+            pictureBox1.BackgroundImage = Properties.Resources._648404_200;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.Location = new Point(13, 12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(169, 134);
+            pictureBox1.TabIndex = 27;
+            pictureBox1.TabStop = false;
             // 
-            // button3
+            // panel1
             // 
-            button3.Location = new Point(455, 507);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 13;
-            button3.Text = "Edit";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
-            // 
-            // phone_textbox
-            // 
-            phone_textbox.BackColor = SystemColors.Control;
-            phone_textbox.Location = new Point(385, 547);
-            phone_textbox.Name = "phone_textbox";
-            phone_textbox.Size = new Size(194, 23);
-            phone_textbox.TabIndex = 1;
-            phone_textbox.TextChanged += phone_textbox_TextChanged;
-            phone_textbox.KeyPress += phone_textbox_KeyPress;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(695, 547);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(304, 30);
-            textBox1.TabIndex = 2;
-            textBox1.TextChanged += textBox1_TextChanged;
-            textBox1.KeyPress += textBox1_KeyPress;
-            // 
-            // PhoneNumberBox
-            // 
-            PhoneNumberBox.BackColor = SystemColors.Window;
-            PhoneNumberBox.Location = new Point(600, 508);
-            PhoneNumberBox.Multiline = true;
-            PhoneNumberBox.Name = "PhoneNumberBox";
-            PhoneNumberBox.Size = new Size(420, 23);
-            PhoneNumberBox.TabIndex = 6;
-            PhoneNumberBox.TextChanged += textBox5_TextChanged;
-            // 
-            // textBox7
-            // 
-            textBox7.Location = new Point(600, 479);
-            textBox7.Multiline = true;
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(420, 23);
-            textBox7.TabIndex = 8;
-            textBox7.TextChanged += textBox7_TextChanged;
+            panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(BirthDayInfo);
+            panel1.Controls.Add(pictureBox1);
+            panel1.Controls.Add(BirthDayShow);
+            panel1.Location = new Point(300, 296);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(543, 149);
+            panel1.TabIndex = 28;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1022, 590);
+            ClientSize = new Size(815, 445);
+            Controls.Add(panel1);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -394,32 +367,28 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(BirthDayShow);
-            Controls.Add(BirthDayInfo);
             Controls.Add(EditButton);
             Controls.Add(button4);
             Controls.Add(SearchBox);
-            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(maskedTextBox1);
             Controls.Add(dateTimePicker1);
             Controls.Add(listBox1);
-            Controls.Add(textBox7);
             Controls.Add(VkBox);
-            Controls.Add(PhoneNumberBox);
             Controls.Add(EmailBox);
             Controls.Add(LastNameBox);
             Controls.Add(FirstNameBox);
-            Controls.Add(textBox1);
-            Controls.Add(phone_textbox);
-            Controls.Add(button1);
             Controls.Add(menuStrip1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
             Text = "ContactApp";
             Load += MainForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -454,11 +423,7 @@
         private ToolStripMenuItem editContactToolStripMenuItem;
         private ToolStripMenuItem removeContactToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
-        private Button button1;
-        private Button button3;
-        private TextBox phone_textbox;
-        private TextBox textBox1;
-        private TextBox PhoneNumberBox;
-        private TextBox textBox7;
+        private PictureBox pictureBox1;
+        private Panel panel1;
     }
 }

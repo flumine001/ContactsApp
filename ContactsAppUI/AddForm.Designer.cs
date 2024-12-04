@@ -163,12 +163,14 @@
             // 
             // maskedTextBox1
             // 
+            maskedTextBox1.Culture = new System.Globalization.CultureInfo("ru-UA");
             maskedTextBox1.Location = new Point(94, 117);
-            maskedTextBox1.Mask = "7(999) 000-00-00";
+            maskedTextBox1.Mask = "7(000) 000-00-00";
             maskedTextBox1.Name = "maskedTextBox1";
             maskedTextBox1.Size = new Size(420, 23);
             maskedTextBox1.TabIndex = 14;
             maskedTextBox1.MaskInputRejected += maskedTextBox1_MaskInputRejected;
+            maskedTextBox1.TextChanged += maskedTextBox1_TextChanged;
             // 
             // AddForm
             // 
@@ -211,6 +213,6 @@
         private Label label4;
         private Label label5;
         private Label label6;
-        private MaskedTextBox maskedTextBox1;
+        public MaskedTextBox maskedTextBox1;
     }
 }

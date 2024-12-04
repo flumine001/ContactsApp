@@ -21,6 +21,7 @@ namespace ContactsApp
             {
                 string str_number = value.ToString();
 
+
                 //if (str_number.Length == 11 && str_number[0] == '7') //Поначалу сделал проверку на первую цифру, но затем решил просто заменять первый введенный символ в text box на 7
                // if (str_number.Length == 16)
                // {

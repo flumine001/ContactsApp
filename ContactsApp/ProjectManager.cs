@@ -24,7 +24,7 @@ namespace ContactsApp
             /// <summary>
             /// Путь к файлу сохранения проекта с контактами
             /// </summary>
-            private const string FileName = "ContactApp1.notes";
+            private const string FileName = "ContactApp.notes";
             public static readonly string SaveFilePath =
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
                 "\\ContactsApp1";
@@ -64,7 +64,18 @@ namespace ContactsApp
             /// <returns>Эксземпляр класса Project из файла</returns>
             public static Project LoadFromFile(string filepath)
             {
+                if (!Directory.Exists(SaveFilePath))
+                {
+                    Directory.CreateDirectory(SaveFilePath);
+                }
+                if (!File.Exists(FilePath))
+                {
+                    File.Create(FilePath).Close();
+
+
+                }
                 Project project = null;
+                
                 JsonSerializer serializer = new JsonSerializer();
                 using (StreamReader sr = new StreamReader(FilePath))
                 using (JsonReader reader = new JsonTextReader(sr))

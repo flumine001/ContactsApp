@@ -26,7 +26,10 @@ namespace ContactsAppUI
         private void RemoveContact()
         {
             Project sortedContacts = new Project();
-            sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+            if (_project != null)
+            {
+                sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+            }
             var selectedIndex = listBox1.SelectedIndex;
             //var sortedContacts = _project.Contact.OrderBy(x => x.LastName).ToList();
             if (selectedIndex >= 0)
@@ -52,19 +55,38 @@ namespace ContactsAppUI
             {
                 var contact = newForm.Contact;
                 Project sortedContacts = new Project();
-
-                sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
-                sortedContacts.Contact.Add(contact);
-                _project.Contact = sortedContacts.Contact.OrderBy(x => x.LastName).ToList();
-                ProjectManager.SaveToFile(_project, ProjectManager.FilePath);
-                _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
-                listBox1.Items.Clear();
-                int ContactCount = 0;
-                foreach (var lastname in _project.Contact)
+                //Project _project = sortedContacts;
+                if (_project != null)
                 {
-                    listBox1.Items.Add(_project.Contact[ContactCount].LastName);
-                    ContactCount++;
+                    sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+                    sortedContacts.Contact.Add(contact);
+                    _project.Contact = sortedContacts.Contact.OrderBy(x => x.LastName).ToList();
+                    ProjectManager.SaveToFile(_project, ProjectManager.FilePath);
+                    _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
+                    listBox1.Items.Clear();
+                    int ContactCount1 = 0;
+                    foreach (var lastname in _project.Contact)
+                    {
+                        listBox1.Items.Add(_project.Contact[ContactCount1].LastName);
+                        ContactCount1++;
 
+                    }
+                }
+                else
+                {
+                    Project _project = new Project();
+                    sortedContacts.Contact.Add(contact);
+                    _project.Contact = sortedContacts.Contact.OrderBy(x => x.LastName).ToList();
+                    ProjectManager.SaveToFile(_project, ProjectManager.FilePath);
+                    _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
+                    listBox1.Items.Clear();
+                    int ContactCount = 0;
+                    foreach (var lastname in _project.Contact)
+                    {
+                        listBox1.Items.Add(_project.Contact[ContactCount].LastName);
+                        ContactCount++;
+
+                    }
                 }
                 Birthday();
 
@@ -141,6 +163,7 @@ namespace ContactsAppUI
         public MainForm()
         {
             InitializeComponent();
+            _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -231,28 +254,34 @@ namespace ContactsAppUI
         {
             _project = ProjectManager.LoadFromFile(ProjectManager.FilePath);
             Project sortedContacts = new Project();
-            sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
-
-            Project _birth = new Project();
-            Project _projectbirth = new Project();
-            BirthDayShow.Text = null;
-
-            for (int i = 0; i < sortedContacts.Contact.Count; i++)
+            if (_project != null)
             {
-                if (_project.Contact[i].BirthDay.Day == DateTime.Today.Day &&
-                    _project.Contact[i].BirthDay.Month == DateTime.Today.Month)
+                sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+
+                Project _birth = new Project();
+                Project _projectbirth = new Project();
+                BirthDayShow.Text = null;
+
+                for (int i = 0; i < sortedContacts.Contact.Count; i++)
                 {
-                    _birth.Contact.Add(sortedContacts.Contact[i]);
+                    if (_project.Contact[i].BirthDay.Day == DateTime.Today.Day &&
+                        _project.Contact[i].BirthDay.Month == DateTime.Today.Month)
+                    {
+                        _birth.Contact.Add(sortedContacts.Contact[i]);
+                    }
+                }
+                for (int i = 0; i < _birth.Contact.Count; i++)
+                {
+                    BirthDayShow.Text = BirthDayShow.Text + _birth.Contact[i].LastName + ", ";
+
+
+                }
+                if (BirthDayShow.Text.Length > 0)
+                {
+                    string newBirthText = BirthDayShow.Text;
+                    BirthDayShow.Text = newBirthText.Remove(newBirthText.Length - 2) + "";
                 }
             }
-            for (int i = 0; i < _birth.Contact.Count; i++)
-            {
-                BirthDayShow.Text = BirthDayShow.Text + _birth.Contact[i].LastName + ", ";
-
-
-            }
-            string newBirthText = BirthDayShow.Text;
-            BirthDayShow.Text = newBirthText.Remove(newBirthText.Length - 2) + "";
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -286,7 +315,10 @@ namespace ContactsAppUI
             */
             // Создаем новый список с сортировкой по фамилии оригинального списка
             Project sortedContacts = new Project();
-            sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+            if (_project != null)
+            {
+                sortedContacts.Contact = _project.Contact.OrderBy(x => x.LastName).ToList();
+            }
 
             /*Project _birth = new Project();
             Project _projectbirth = new Project();
